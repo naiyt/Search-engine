@@ -1,7 +1,7 @@
 Search-engine
 =============
 
-Basic search engine implemented in Python and the Google App Engine
+Basic search engine implemented in Python and the Google App Engine by Nathan Collings
 
 Overview
 --------
