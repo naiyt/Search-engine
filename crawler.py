@@ -2,14 +2,9 @@ import urllib2
 import re
 import time
 
-from google.appengine.ext import db
-from bs4 import BeautifulSoup
 from urlparse import urljoin
 
-
-
 def start_crawling():
-	#logging.info("Crawling the interwebs!")
 	my_crawler = Crawler('http://google.com', 100, 10)
 	my_crawler.crawl_web()
 	my_crawler.compute_ranks()
@@ -100,7 +95,6 @@ class Crawler:
 		page_rank = 0.0
 		if page in self.ranks:
 			page_rank = self.ranks[page]
-
 
 		#Add to the database if it's a new link	
 		new_key = page

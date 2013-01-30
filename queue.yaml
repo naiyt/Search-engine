@@ -1,3 +1,0 @@
-queue:
-- name: crawling
-  rate: 1/s
