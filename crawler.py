@@ -9,7 +9,6 @@ from urlparse import urljoin
 
 
 def start_crawling():
-	#logging.info("Crawling the interwebs!")
 	my_crawler = Crawler('http://google.com', 100, 10)
 	my_crawler.crawl_web()
 	my_crawler.compute_ranks()

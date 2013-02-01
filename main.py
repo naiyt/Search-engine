@@ -26,11 +26,12 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_str(template, **kw))
 
 class MainHandler(Handler):
-
+    """Just blank for now"""
 	def get(self):
 		self.write("Hello!")
 
-class CrawlWorker(Handler):
+class CrawlHandler(Handler):
+    """Creates a non taskqueue crawler"""
 	def post(self):
 		seed = self.request.get('seed')
 		maxpages = int(self.request.get('maxpages'))
@@ -40,20 +41,28 @@ class CrawlWorker(Handler):
 		my_crawler.crawl_web()
 		my_crawler.compute_ranks()
 
-class AdminHandler(Handler):
+class CrawlWorker(Handler):
+    """
+    A simple get will display either a login page or the "admin" page
+    that will allow you to choose seed, max depth and pages, and sleep
+    time.
+
+    """
+
 	def get(self):
 		user = users.get_current_user()
-		if not user:
+		if not user: #User isn't logged in
 			self.response.out.write("<a href='%s'>Sign in</a>" % users.create_login_url())
 
 		else:
-			self.render('admin.html')
+			self.render('admin.html') #An admin page to post your search options
 
 	def post(self):
+        """Starts the crawler running in the taskqueue."""
 		seed = self.request.get('seed')
 		maxpages = self.request.get('maxpages')
 		maxdepth = self.request.get('maxdepth')
-		rest = self.request.get('rest')
+		rest = self.request.get('rest') #Time between requests
 
 		my_params = {'seed': seed, 'maxpages': maxpages, 'maxdepth': maxdepth, 'rest': rest}
 
@@ -62,14 +71,12 @@ class AdminHandler(Handler):
 
 app = webapp2.WSGIApplication([('/', MainHandler),
 							   ('/crawlworker', CrawlWorker),
-							   ('/admin', AdminHandler)],
+							   ('/crawl', CrawlHandler)],
 								debug=True)
-
 
 def main():
 	run_wsgi_app(app)
 
 if __name__ == '__main__':
 	main()
-
 

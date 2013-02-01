@@ -10,7 +10,7 @@ This was originaly a project for the Udacity "Building a Search Engine" class th
 I've since decided to try and dust it off and improve it a bit. I decided to try and implement it in
 the Google App Engine, which was somewhat succesfull. However, it puts a ton of read/write access on
 the datastore, resulting in me reaching my App Engine quotas way too quickly...so I'll likely end up just
-implementing this locally for now.
+implementing this locally for now. I've create an SQL branch that doesn't use GAE at all, but it's got a fair number of bugs that I need to fix up.
 
 It's still got a fair number of bugs and things that need to be done to get this working properly and
 effectively.
