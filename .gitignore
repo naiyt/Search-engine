@@ -1,3 +1,4 @@
 *.pyc
 bs4
 main.py
+*.db
