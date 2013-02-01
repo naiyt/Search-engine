@@ -4,10 +4,10 @@ def first_time_setup():
     conn = sqlite3.connect('searchengine.db')
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE keywords 
-                        (word, urlid)
+                        (word, urlid, PRIMARY KEY(urlid))
                    """)
     cursor.execute("""CREATE TABLE urls
-                        (url, score)
+                        (url, score, PRIMARY KEY(url))
                    """)
     conn.commit()
 

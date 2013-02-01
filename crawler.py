@@ -21,7 +21,6 @@ class Crawler:
             max_depth = self.max_depth
         if max_pages is None:
             max_pages = self.max_pages
-        print max_pages
         tocrawl = [[seed, 0]]
         crawled = []
         total_crawled = 0
@@ -58,7 +57,7 @@ class Crawler:
     def _open_url(self, url):
         """Open a url with urllib2. Put here so it makes catching exceptions easier."""
         try:
-            return urllib2.urlopen(url).read()
+            return urllib2.urlopen(url)
         except urllib2.URLError as e:
             print 'URLError = ' + str(e.reason)
         except urllib2.HTTPError as e:
@@ -86,12 +85,6 @@ class Crawler:
         if page in self.ranks:
             page_rank = self.ranks[page]
 
-        #Add to the database if it's a new link 
-        conn = sqlite3.connect('searchengine.db')
-        cursor = conn.cursor()
-        cursor.execute("INSERT OR REPLACE INTO urls (url) VALUES (?)", (page,))
-        conn.commit()
-
         if meta_keywords:
             meta_keywords =  meta_keywords['content']
             meta_keywords = meta_keywords.split(',')
@@ -112,15 +105,16 @@ class Crawler:
         cursor = conn.cursor()
         for word in words:
             cursor.execute("INSERT OR REPLACE INTO keywords (word, urlid) VALUES (?,?)", (word, page))
-        conn.commit()
+            conn.commit()
 
 
     def _split_string(self, source):
-        splitlist = ' ,!".?<>|{}\'\\\(\)'
+        splitlist = ' ,!".?'
         for sep in splitlist[1:]:
             source = source.replace(sep, splitlist[0])
         source = source.split(splitlist[0])
         for word in source[:]:
+            print word
             if word == '':
                 source.remove(word)
         return source
